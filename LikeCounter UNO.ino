@@ -2,22 +2,22 @@
 #include <Wire.h>
 
 #define PIN            6
-#define PIXELS_PER_SEGMENT  1
+#define PIXELS_PER_SEGMENT  3
 #define DIGITS 6
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS_PER_SEGMENT * 7 * DIGITS, PIN, NEO_GRB + NEO_KHZ800);
 
 byte segments[10] = {
+  0b0111111,
+  0b0100001,
+  0b1011011,
+  0b1110011,
+  0b1100101,
+  0b1110110,
   0b1111110,
-  0b0011000,
-  0b0110111,
-  0b0111101,
-  0b1011001,
-  0b1101101,
-  0b1101111,
-  0b0111000,
+  0b0100011,
   0b1111111,
-  0b1111001
+  0b1110111
 };
 
 int FB_unite;
@@ -45,7 +45,7 @@ void writeDigit(int index, int value) {
   byte seg = segments[value];
   for (int i = 6; i >= 0; i--) {
     int offset = index * (PIXELS_PER_SEGMENT * 7) + i * PIXELS_PER_SEGMENT;
-    uint32_t color = seg & 0x01 != 0 ? strip.Color(25, 50, 50) : strip.Color(0, 0, 0);
+    uint32_t color = seg & 0x01 != 0 ? strip.Color(125, 255, 255) : strip.Color(0, 0, 0);
     for (int x = offset; x < offset + PIXELS_PER_SEGMENT; x++) {
       strip.setPixelColor(x, color);
     }
@@ -64,8 +64,6 @@ void setup() {
 void loop() {
   
   clearDisplay();
-  animateLoop(true, true);
-  animateLoop(false, false);
   writeDigit(5, FB_unite);
   writeDigit(4, FB_dizaine);
   writeDigit(3, FB_centaine);
@@ -73,11 +71,10 @@ void loop() {
   writeDigit(1, FB_dizaine_millier);
   writeDigit(0, FB_millions);
   strip.show();
-  delay(5000);
-
+  delay(7000);
+  rainbow(4);
+  
   clearDisplay();
-  animateLoop(true, true);
-  animateLoop(false, false);
   writeDigit(5, TW_unite);
   writeDigit(4, TW_dizaine);
   writeDigit(3, TW_centaine);
@@ -85,11 +82,10 @@ void loop() {
   writeDigit(1, TW_dizaine_millier);
   writeDigit(0, TW_millions);
   strip.show();
-  delay(5000);
+  delay(7000);
+  rainbow(4);
 
   clearDisplay();
-  animateLoop(true, true);
-  animateLoop(false, false);
   writeDigit(5, IN_unite);
   writeDigit(4, IN_dizaine);
   writeDigit(3, IN_centaine);
@@ -97,7 +93,8 @@ void loop() {
   writeDigit(1, IN_dizaine_millier);
   writeDigit(0, IN_millions);
   strip.show();
-  delay(5000);
+  delay(7000);
+  rainbow(4);
   
 }
 
@@ -168,51 +165,70 @@ void clearDisplay() {
   }
 }
 
-void animateLoop(bool fromInner, bool clearing) {
 
-  for (int b = fromInner ? 0 : 7; fromInner ? b < 7 : b >= 0; b += (fromInner ? 1 : -1)) {
-    if (clearing) {
-      clearDisplay();
-    }
-    switch (b) {
-      case 0:
-        strip.setPixelColor(19, strip.Color(100, 0, 100));
-        break;
-      case 1:
-        strip.setPixelColor(20, strip.Color(100, 0, 100));
-        strip.setPixelColor(18, strip.Color(100, 0, 100));
-        break;
-      case 2:
-        strip.setPixelColor(0, strip.Color(100, 0, 100));
-        strip.setPixelColor(8, strip.Color(100, 0, 100));
-        strip.setPixelColor(9, strip.Color(100, 0, 100));
-        strip.setPixelColor(17, strip.Color(100, 0, 100));
-        break;
-      case 3:
-        strip.setPixelColor(1, strip.Color(100, 0, 100));
-        strip.setPixelColor(7, strip.Color(100, 0, 100));
-        strip.setPixelColor(10, strip.Color(100, 0, 100));
-        strip.setPixelColor(16, strip.Color(100, 0, 100));
-        break;
-      case 4:
-        strip.setPixelColor(2, strip.Color(100, 0, 100));
-        strip.setPixelColor(6, strip.Color(100, 0, 100));
-        strip.setPixelColor(11, strip.Color(100, 0, 100));
-        strip.setPixelColor(15, strip.Color(100, 0, 100));
-        break;
-      case 5:
-        strip.setPixelColor(3, strip.Color(100, 0, 100));
-        strip.setPixelColor(5, strip.Color(100, 0, 100));
-        strip.setPixelColor(12, strip.Color(100, 0, 100));
-        strip.setPixelColor(14, strip.Color(100, 0, 100));
-        break;
-      case 6:
-        strip.setPixelColor(4, strip.Color(100, 0, 100));
-        strip.setPixelColor(13, strip.Color(100, 0, 100));
-        break;
-      default: break;
+// Fill the dots one after the other with a color
+void colorWipe(uint32_t c, uint8_t wait) {
+  for(uint16_t i=0; i<strip.numPixels(); i++) {
+    strip.setPixelColor(i, c);
+    strip.show();
+    delay(wait);
+  }
+}
+
+void rainbow(uint8_t wait) {
+  uint16_t i, j;
+
+  for(j=0; j<256; j++) {
+    for(i=0; i<strip.numPixels(); i++) {
+      strip.setPixelColor(i, Wheel((i+j) & 255));
     }
     strip.show();
-    delay(100);
+    delay(wait);
   }
+}
+
+// Slightly different, this makes the rainbow equally distributed throughout
+void rainbowCycle(uint8_t wait) {
+  uint16_t i, j;
+
+  for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
+    for(i=0; i< strip.numPixels(); i++) {
+      strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
+    }
+    strip.show();
+    delay(wait);
+  }
+}
+
+//Theatre-style crawling lights with rainbow effect
+void theaterChaseRainbow(uint8_t wait) {
+  for (int j=0; j < 256; j++) {     // cycle all 256 colors in the wheel
+    for (int q=0; q < 3; q++) {
+      for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
+        strip.setPixelColor(i+q, Wheel( (i+j) % 255));    //turn every third pixel on
+      }
+      strip.show();
+
+      delay(wait);
+
+      for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
+        strip.setPixelColor(i+q, 0);        //turn every third pixel off
+      }
+    }
+  }
+}
+
+// Input a value 0 to 255 to get a color value.
+// The colours are a transition r - g - b - back to r.
+uint32_t Wheel(byte WheelPos) {
+  WheelPos = 255 - WheelPos;
+  if(WheelPos < 85) {
+    return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+  }
+  if(WheelPos < 170) {
+    WheelPos -= 85;
+    return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+  }
+  WheelPos -= 170;
+  return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
 }
