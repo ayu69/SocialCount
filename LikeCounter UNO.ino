@@ -8,16 +8,16 @@
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS_PER_SEGMENT * 7 * DIGITS, PIN, NEO_GRB + NEO_KHZ800);
 
 byte segments[10] = {
-  0b0111111,
-  0b0100001,
+  0b1110111,
+  0b0010001,
+  0b0111110,
+  0b0111011,
   0b1011011,
-  0b1110011,
-  0b1100101,
-  0b1110110,
-  0b1111110,
-  0b0100011,
+  0b1101110,
+  0b1101111,
+  0b0110001,
   0b1111111,
-  0b1110111
+  0b1111011
 };
 
 int FB_unite;
