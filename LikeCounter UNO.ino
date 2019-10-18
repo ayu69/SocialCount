@@ -13,7 +13,7 @@ byte segments[10] = {
   0b0111110,
   0b0111011,
   0b1011011,
-  0b1101110,
+  0b1101111,
   0b1101111,
   0b0110001,
   0b1111111,
@@ -62,40 +62,44 @@ void setup() {
 
 
 void loop() {
-  
-  clearDisplay();
-  writeDigit(5, FB_unite);
-  writeDigit(4, FB_dizaine);
-  writeDigit(3, FB_centaine);
-  writeDigit(2, FB_millier);
-  writeDigit(1, FB_dizaine_millier);
-  writeDigit(0, FB_millions);
-  strip.show();
-  delay(7000);
-  rainbow(4);
-  
-  clearDisplay();
-  writeDigit(5, TW_unite);
-  writeDigit(4, TW_dizaine);
-  writeDigit(3, TW_centaine);
-  writeDigit(2, TW_millier);
-  writeDigit(1, TW_dizaine_millier);
-  writeDigit(0, TW_millions);
-  strip.show();
-  delay(7000);
-  rainbow(4);
 
-  clearDisplay();
-  writeDigit(5, IN_unite);
-  writeDigit(4, IN_dizaine);
-  writeDigit(3, IN_centaine);
-  writeDigit(2, IN_millier);
-  writeDigit(1, IN_dizaine_millier);
-  writeDigit(0, IN_millions);
-  strip.show();
-  delay(7000);
-  rainbow(4);
+  if (FB_unite == 0 && FB_dizaine ==0 && FB_centaine ==0 && FB_millier == 0 && FB_dizaine_millier == 0){
+    rainbow(10);
+}
+else{
+    clearDisplay();
+    writeDigit(5, FB_unite);
+    writeDigit(4, FB_dizaine);
+    writeDigit(3, FB_centaine);
+    writeDigit(2, FB_millier);
+    writeDigit(1, FB_dizaine_millier);
+    writeDigit(0, FB_millions);
+    strip.show();
+    delay(7000);
+    rainbow(4);
+    
+    clearDisplay();
+    writeDigit(5, TW_unite);
+    writeDigit(4, TW_dizaine);
+    writeDigit(3, TW_centaine);
+    writeDigit(2, TW_millier);
+    writeDigit(1, TW_dizaine_millier);
+    writeDigit(0, TW_millions);
+    strip.show();
+    delay(7000);
+    rainbow(4);
   
+    clearDisplay();
+    writeDigit(5, IN_unite);
+    writeDigit(4, IN_dizaine);
+    writeDigit(3, IN_centaine);
+    writeDigit(2, IN_millier);
+    writeDigit(1, IN_dizaine_millier);
+    writeDigit(0, IN_millions);
+    strip.show();
+    delay(7000);
+    rainbow(4);
+  }
 }
 
 void receiveEvent(int howMany) {
