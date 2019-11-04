@@ -7,6 +7,8 @@
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS_PER_SEGMENT * 7 * DIGITS + 27, PIN, NEO_GRB + NEO_KHZ800);
 
+//Adafruit_NeoPixel social = Adafruit_NeoPixel(153, PIN, NEO_GRB + NEO_KHZ800);
+
 byte segments[10] = {
   0b1110111,
   0b0010001,
@@ -74,7 +76,7 @@ else{
     writeDigit(2, FB_millier);
     writeDigit(1, FB_dizaine_millier);
     writeDigit(0, FB_millions);
-
+    facebook();
     strip.show();
     delay(7000);
     rainbow(4);
@@ -241,9 +243,9 @@ uint32_t Wheel(byte WheelPos) {
 
 void facebook () {
 
-  strip.setPixelColor(126, 255, 0, 255);
-  strip.setPixelColor(127, 255, 0, 255);
-  strip.setPixelColor(128, 255, 0, 255);
+  strip.setPixelColor(126, 66, 103, 178);
+  strip.setPixelColor(127, 66, 103, 178);
+  strip.setPixelColor(128, 66, 103, 178);
   
 
 }
