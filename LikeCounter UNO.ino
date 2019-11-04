@@ -7,8 +7,6 @@
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS_PER_SEGMENT * 7 * DIGITS + 27, PIN, NEO_GRB + NEO_KHZ800);
 
-//Adafruit_NeoPixel social = Adafruit_NeoPixel(153, PIN, NEO_GRB + NEO_KHZ800);
-
 byte segments[10] = {
   0b1110111,
   0b0010001,
@@ -88,6 +86,7 @@ else{
     writeDigit(2, TW_millier);
     writeDigit(1, TW_dizaine_millier);
     writeDigit(0, TW_millions);
+    twitter();
     strip.show();
     delay(7000);
     rainbow(4);
@@ -99,6 +98,7 @@ else{
     writeDigit(2, IN_millier);
     writeDigit(1, IN_dizaine_millier);
     writeDigit(0, IN_millions);
+    insta();
     strip.show();
     delay(7000);
     rainbow(4);
@@ -241,11 +241,43 @@ uint32_t Wheel(byte WheelPos) {
 }
 
 
-void facebook () {
+void facebook() {
 
   strip.setPixelColor(126, 66, 103, 178);
   strip.setPixelColor(127, 66, 103, 178);
   strip.setPixelColor(128, 66, 103, 178);
-  
+  strip.setPixelColor(129, 66, 103, 178);
+  strip.setPixelColor(130, 66, 103, 178);
+  strip.setPixelColor(131, 66, 103, 178);
+  strip.setPixelColor(132, 66, 103, 178);
+  strip.setPixelColor(133, 66, 103, 178);
+  strip.setPixelColor(134, 66, 103, 178);
+}
 
+
+void twitter() {
+
+  strip.setPixelColor(135, 80, 171, 241);
+  strip.setPixelColor(136, 80, 171, 241);
+  strip.setPixelColor(137, 80, 171, 241);
+  strip.setPixelColor(138, 80, 171, 241);
+  strip.setPixelColor(139, 80, 171, 241);
+  strip.setPixelColor(140, 80, 171, 241);
+  strip.setPixelColor(141, 80, 171, 241);
+  strip.setPixelColor(142, 80, 171, 241);
+  strip.setPixelColor(143, 80, 171, 241);
+}
+
+
+void insta() {
+
+  strip.setPixelColor(144, 84, 66, 214);
+  strip.setPixelColor(145, 197, 37, 143);
+  strip.setPixelColor(146, 243, 51, 64);
+  strip.setPixelColor(147, 243, 51, 64);
+  strip.setPixelColor(148, 197, 37, 143);
+  strip.setPixelColor(149, 197, 37, 143);
+  strip.setPixelColor(150, 197, 37, 143);
+  strip.setPixelColor(151, 243, 51, 64);
+  strip.setPixelColor(152, 254, 192, 83); 
 }
