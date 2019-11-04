@@ -45,7 +45,7 @@ void writeDigit(int index, int value) {
   byte seg = segments[value];
   for (int i = 6; i >= 0; i--) {
     int offset = index * (PIXELS_PER_SEGMENT * 7) + i * PIXELS_PER_SEGMENT;
-    uint32_t color = seg & 0x01 != 0 ? strip.Color(125, 255, 255) : strip.Color(0, 0, 0);
+    uint32_t color = seg & 0x01 != 0 ? strip.Color(18, 72, 100) : strip.Color(0, 0, 0);
     for (int x = offset; x < offset + PIXELS_PER_SEGMENT; x++) {
       strip.setPixelColor(x, color);
     }
